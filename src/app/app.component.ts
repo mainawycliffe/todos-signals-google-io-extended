@@ -6,8 +6,13 @@ import { RouterModule, RouterOutlet } from '@angular/router';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, RouterOutlet, RouterModule],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  template: `
+    <div class="flex flex-col h-screen w-screen">
+      <div class="max-w-lg w-full mx-auto flex flex-col h-full">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  `,
 })
 export class AppComponent {
   title = 'todos-signals-pwani';
