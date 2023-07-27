@@ -1,6 +1,24 @@
 import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
+const defaultTodos = [
+  {
+    id: Math.random().toString(),
+    todo: 'Learn Svelte',
+    completed: false,
+  },
+  {
+    id: Math.random().toString(),
+    todo: 'Learn Angular',
+    completed: false,
+  },
+  {
+    id: Math.random().toString(),
+    todo: 'Learn React',
+    completed: true,
+  },
+];
+
 type Todos = {
   id: string;
   todo: string;
@@ -11,23 +29,12 @@ type Todos = {
   providedIn: 'root',
 })
 export class TodosService {
-  todos = signal<Todos[]>([
-    {
-      id: Math.random().toString(),
-      todo: 'Learn Svelte',
-      completed: false,
-    },
-    {
-      id: Math.random().toString(),
-      todo: 'Learn Angular',
-      completed: false,
-    },
-    {
-      id: Math.random().toString(),
-      todo: 'Learn React',
-      completed: true,
-    },
-  ]);
+  todos = signal<Todos[]>(
+    localStorage.getItem('todos')
+      ? // we can use the non-null assertion operator here because we know that it's not null
+        JSON.parse(localStorage.getItem('todos')!)
+      : defaultTodos
+  );
 
   // a computed signal that returns the total number of todos
   totalTodos = computed(() => this.todos().length);
@@ -42,15 +49,17 @@ export class TodosService {
     () => this.todos().filter((todo) => !todo.completed).length
   );
 
-  set todos1(value: Todos[]) {
-    this.todos.set(value);
-  }
-
   titleService = inject(Title);
 
   constructor() {
     effect(() => {
       this.titleService.setTitle(`Todos App (${this.uncompletedTodos()})`);
+    });
+
+    // persist todos to localStorage
+    effect(() => {
+      const todosJSON = JSON.stringify(this.todos());
+      localStorage.setItem('todos', todosJSON);
     });
   }
 
