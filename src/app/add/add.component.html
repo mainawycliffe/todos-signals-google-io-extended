@@ -1,0 +1,13 @@
+<div class="flex flex-row py-4">
+  <input
+    name="todo"
+    [(ngModel)]="todo"
+    class="flex-1 border-black border rounded-md rounded-r-none border-r-0 px-2 py-1"
+  />
+  <button
+    (click)="addTodo()"
+    class="w-auto px-2 py-1 bg-blue-500 border border-l-0 border-black rounded-md rounded-l-none font-semibold text-white hover:bg-blue-600 transition duration-200 ease-in-out cursor-pointer"
+  >
+    Add Todo
+  </button>
+</div>
