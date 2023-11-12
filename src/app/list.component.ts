@@ -19,11 +19,11 @@ import { SummaryComponent } from './summary.component';
         </a>
       </div>
       <app-summary></app-summary>
+      @for (todo of todos(); track todo) {
       <div
         role="button"
         (click)="toggleTodos(todo.id)"
         class="flex flex-row px-2 py-4 bg-blue-200 border-gray-700 rounded-md cursor-pointer hover:bg-blue-300 transition duration-200 ease-in-out"
-        *ngFor="let todo of todos()"
       >
         <div class="flex-1">
           {{ todo.todo }}
@@ -32,6 +32,7 @@ import { SummaryComponent } from './summary.component';
           {{ todo.completed ? '✅' : '❌' }}
         </div>
       </div>
+      }
     </div>
   `,
 })
